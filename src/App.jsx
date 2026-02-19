@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Search, History, Cloud, MapPin, Loader2, AlertCircle } from 'lucide-react';
-import { motion } from 'framer-motion';
 import GlassCard from './components/GlassCard';
 import WeatherDisplay from './components/WeatherDisplay';
 import { getCurrentWeather, getHistoricalWeather } from './services/weatherService';
@@ -103,14 +102,10 @@ function App() {
 
       {/* Error State */}
       {error && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="bg-red-500/10 border border-red-500/20 text-red-200 px-6 py-4 rounded-2xl flex items-center gap-3 mb-8"
-        >
+        <div className="bg-red-500/10 border border-red-500/20 text-red-200 px-6 py-4 rounded-2xl flex items-center gap-3 mb-8 animate-fade-in">
           <AlertCircle size={20} />
           <span>{error}</span>
-        </motion.div>
+        </div>
       )}
 
       {/* Weather Results */}

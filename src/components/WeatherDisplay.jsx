@@ -13,7 +13,17 @@ const WeatherDisplay = ({ data, type }) => {
         );
     }
 
-    const { location, current, historical, forecast } = data;
+    const { location, current, historical } = data;
+
+    if (!location || (!current && !historical)) {
+        return (
+            <GlassCard className="mt-8 text-center p-12">
+                <p className="text-xl text-slate-400">
+                    Weather information is unavailable for this location.
+                </p>
+            </GlassCard>
+        );
+    }
 
     return (
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
@@ -21,13 +31,13 @@ const WeatherDisplay = ({ data, type }) => {
             <GlassCard className="md:col-span-2 lg:col-span-1 bg-gradient-to-br from-white/10 to-transparent">
                 <div className="flex justify-between items-start">
                     <div>
-                        <h2 className="text-4xl font-extrabold text-gradient">{location.name}</h2>
+                        <h2 className="text-4xl font-extrabold text-gradient">{location?.name || 'Unknown'}</h2>
                         <p className="text-slate-400 flex items-center gap-1 mt-1">
-                            <MapPin size={14} /> {location.region}, {location.country}
+                            <MapPin size={14} /> {location?.region}, {location?.country}
                         </p>
                     </div>
                     <div className="text-right">
-                        <p className="text-5xl font-light">{current?.temperature || historical?.[Object.keys(historical)[0]]?.avgtemp}°</p>
+                        <p className="text-5xl font-light">{current?.temperature ?? historical?.[Object.keys(historical)[0]]?.avgtemp ?? 'N/A'}°</p>
                         <p className="text-slate-400">{current?.weather_descriptions?.[0] || 'Condition'}</p>
                     </div>
                 </div>
@@ -37,14 +47,14 @@ const WeatherDisplay = ({ data, type }) => {
                         <Wind className="text-blue-400" size={20} />
                         <div>
                             <p className="text-xs text-slate-400 uppercase tracking-wider">Wind</p>
-                            <p className="font-semibold">{current?.wind_speed} km/h</p>
+                            <p className="font-semibold">{current?.wind_speed ?? 0} km/h</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3 bg-white/5 p-3 rounded-xl border border-white/5">
                         <Droplets className="text-cyan-400" size={20} />
                         <div>
                             <p className="text-xs text-slate-400 uppercase tracking-wider">Humidity</p>
-                            <p className="font-semibold">{current?.humidity}%</p>
+                            <p className="font-semibold">{current?.humidity ?? 0}%</p>
                         </div>
                     </div>
                 </div>
