@@ -38,7 +38,9 @@ function App() {
         setWeatherData(data);
       }
     } catch (err) {
-      setError('Failed to fetch weather data. Please check your connection or API key.');
+      console.error('Fetch error:', err);
+      const errorMessage = err.response?.data?.error?.info || err.message || 'Failed to fetch weather data.';
+      setError(`${errorMessage}. Please check your connection or API key.`);
     } finally {
       setLoading(false);
     }
