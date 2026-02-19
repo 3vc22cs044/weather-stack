@@ -39,8 +39,11 @@ function App() {
       }
     } catch (err) {
       console.error('Fetch error:', err);
-      const errorMessage = err.response?.data?.error?.info || err.message || 'Failed to fetch weather data.';
-      setError(`${errorMessage}. Please check your connection or API key.`);
+      const detailedError = err.response?.data?.error?.info
+        || (err.code ? `[${err.code}] ${err.message}` : err.message)
+        || 'Unknown connection error';
+
+      setError(`Error: ${detailedError}. (Check if you are on HTTPS but using HTTP API)`);
     } finally {
       setLoading(false);
     }
@@ -48,6 +51,10 @@ function App() {
 
   return (
     <div className="flex-1 max-w-6xl mx-auto w-full px-6 py-12 flex flex-col items-center">
+      {/* Version Tag for Debugging */}
+      <div className="fixed bottom-4 right-4 text-[10px] text-white/20 select-none">
+        v1.0.3-debug
+      </div>
       {/* Header */}
       <div className="text-center mb-12 animate-fade-in">
         <h1 className="text-6xl font-extrabold text-gradient mb-4">WeatherStack</h1>
