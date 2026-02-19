@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, History, Cloud, MapPin, Loader2, AlertCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
 import GlassCard from './components/GlassCard';
 import WeatherDisplay from './components/WeatherDisplay';
 import { getCurrentWeather, getHistoricalWeather } from './services/weatherService';
@@ -18,6 +19,7 @@ function App() {
 
     setLoading(true);
     setError(null);
+    setWeatherData(null);
     try {
       let data;
       if (view === 'current') {

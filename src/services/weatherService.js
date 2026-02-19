@@ -5,15 +5,15 @@ const BASE_URL = 'http://api.weatherstack.com';
 
 const weatherApi = axios.create({
   baseURL: BASE_URL,
-  params: {
-    access_key: API_KEY,
-  },
 });
 
 export const getCurrentWeather = async (query) => {
   try {
     const response = await weatherApi.get('/current', {
-      params: { query },
+      params: {
+        access_key: API_KEY,
+        query
+      },
     });
     return response.data;
   } catch (error) {
@@ -26,6 +26,7 @@ export const getHistoricalWeather = async (query, date) => {
   try {
     const response = await weatherApi.get('/historical', {
       params: {
+        access_key: API_KEY,
         query,
         historical_date: date,
       },
